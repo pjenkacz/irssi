@@ -1,10 +1,10 @@
-name: Build and Test Irssi on ino_dev
+name: Build, Test and Package Irssi on ino_dev
 
 on:
   push:
-    branches: [master]
+    branches: [ino_dev]
   pull_request:
-    branches: [master]
+    branches: [ino_dev]
 
 jobs:
   build-and-test:
@@ -31,8 +31,18 @@ jobs:
     - name: Build with ninja
       run: ninja -C Build
 
-    - name: Run unit tests
-      run: ninja -C Build test
+    - name: Run meson unit tests
+      run: |
+        meson test -C Build --print-errorlogs --logbase junit | tee test.log
 
-    - name: Run irssi --help to confirm successful build
-      run: ./Build/src/irssi --help
+    - name: Create tarball from build
+      run: |
+        mkdir -p .out/usr
+        cp -r Build/* .out/usr/
+        tar -czf irssi_build_output.tar.gz -C .out usr
+
+    - name: Upload tarball as artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: irssi-tarball
+        path: irssi_build_output.tar.gz
