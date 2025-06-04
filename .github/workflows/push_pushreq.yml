@@ -12,7 +12,7 @@ jobs:
 
     steps:
     - name: Checkout source code
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Install dependencies
       run: |
@@ -42,7 +42,7 @@ jobs:
         tar -czf irssi_build_output.tar.gz -C .out usr
 
     - name: Upload tarball as artifact
-      uses: actions/upload-artifact@v3
+      uses: actions/upload-artifact@v4
       with:
         name: irssi-tarball
         path: irssi_build_output.tar.gz
