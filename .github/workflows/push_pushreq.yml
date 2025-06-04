@@ -2,9 +2,9 @@ name: Build, Test and Package Irssi on ino_dev
 
 on:
   push:
-    branches: [ino_dev]
+    branches: [master]
   pull_request:
-    branches: [ino_dev]
+    branches: [master]
 
 jobs:
   build-and-test:
